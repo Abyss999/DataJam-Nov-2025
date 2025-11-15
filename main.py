@@ -70,7 +70,7 @@ for train_index, test_index in skf.split(X_scaled, y):
 # prints the average accuracy
 print(f"Average Accuracy from Stratified K-Fold: {np.mean(accuracies)}")    
 
-# now do random forest and test it using stratified k folds 
+# do random forest and test it using stratified k folds 
 from sklearn.ensemble import RandomForestClassifier
 
 
