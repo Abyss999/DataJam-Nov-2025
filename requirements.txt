@@ -2,4 +2,3 @@ torch
 pandas
 numpy
 scikit-learn
-collections
