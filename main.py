@@ -322,3 +322,5 @@ best_cat_model = random_search_cat.best_estimator_
 y_pred_cat = best_cat_model.predict(X_scaled)
 final_accuracy_cat = accuracy_score(y, y_pred_cat)
 print(f"Final Accuracy with Best Parameters (CatBoost): {final_accuracy_cat}")
+
+# what up what up
