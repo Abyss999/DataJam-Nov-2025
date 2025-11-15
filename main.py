@@ -26,13 +26,18 @@ X_scaled = scaler.fit_transform(X)
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, confusion_matrix
+
+
 # splits the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+
 # creates and trains the model
 model = LogisticRegression(max_iter=1000)
 model.fit(X_train, y_train)
+
 # makes predictions
 y_pred = model.predict(X_test)
+
 # evaluates the model
 print(confusion_matrix(y_test, y_pred))
 print(classification_report(y_test, y_pred))
@@ -43,8 +48,11 @@ print(y.head())
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score
+
+
 # initializes the decision tree classifier
 dt_model = DecisionTreeClassifier(random_state=42)
+
 # initializes stratified k-fold cross-validation
 skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 accuracies = []
@@ -58,11 +66,14 @@ for train_index, test_index in skf.split(X_scaled, y):
     # calculates accuracy
     accuracy = accuracy_score(y_test, y_pred)
     accuracies.append(accuracy)
+
 # prints the average accuracy
 print(f"Average Accuracy from Stratified K-Fold: {np.mean(accuracies)}")    
 
 # now do random forest and test it using stratified k folds 
 from sklearn.ensemble import RandomForestClassifier
+
+
 # initializes the random forest classifier
 rf_model = RandomForestClassifier(random_state=42)
 accuracies = []
@@ -76,11 +87,14 @@ for train_index, test_index in skf.split(X_scaled, y):
     # calculates accuracy
     accuracy = accuracy_score(y_test, y_pred)
     accuracies.append(accuracy)
+
+
 # prints the average accuracy
 print(f"Average Accuracy from Stratified K-Fold (Random Forest): {np.mean(accuracies)}")
 
 # do boosting and test it using stratified k folds to find accuracy
 from sklearn.ensemble import GradientBoostingClassifier
+
 # initializes the gradient boosting classifier
 gb_model = GradientBoostingClassifier(random_state=42)
 accuracies = []
@@ -94,11 +108,14 @@ for train_index, test_index in skf.split(X_scaled, y):
     # calculates accuracy
     accuracy = accuracy_score(y_test, y_pred)
     accuracies.append(accuracy)
+
 # prints the average accuracy
 print(f"Average Accuracy from Stratified K-Fold (Gradient Boosting): {np.mean(accuracies)}") 
 
 # do boosting and test it using stratified k folds to find accuracy
 from sklearn.ensemble import GradientBoostingClassifier
+
+
 # initializes the gradient boosting classifier
 gb_model = GradientBoostingClassifier(random_state=42)
 accuracies = []
@@ -112,11 +129,14 @@ for train_index, test_index in skf.split(X_scaled, y):
     # calculates accuracy
     accuracy = accuracy_score(y_test, y_pred)
     accuracies.append(accuracy)
+
 # prints the average accuracy
 print(f"Average Accuracy from Stratified K-Fold (Gradient Boosting): {np.mean(accuracies)}") 
 
 # randomize search cv for gradient boosting classifier
 from sklearn.model_selection import RandomizedSearchCV
+
+
 # defines the parameter grid
 param_grid = {
     'n_estimators': [50, 100, 150, 200],
@@ -125,6 +145,7 @@ param_grid = {
 
     'max_depth': [3, 5, 7, 9]
 }
+
 # initializes the randomized search
 random_search = RandomizedSearchCV(
     estimator=gb_model,
@@ -135,11 +156,14 @@ random_search = RandomizedSearchCV(
     random_state=42,
     n_jobs=-1
 )
+
 # fits the randomized search
 random_search.fit(X_scaled, y)
+
 # prints the best parameters and best score
 print(f"Best Parameters: {random_search.best_params_}")
 print(f"Best Score: {random_search.best_score_}")
+
 # final evaluation with best parameters
 best_gb_model = random_search.best_estimator_
 y_pred = best_gb_model.predict(X_scaled)
@@ -154,6 +178,7 @@ param_grid_rf = {
     'min_samples_split': [2, 5, 10],
     'min_samples_leaf': [1, 2, 4]
 }
+
 # initializes the randomized search
 random_search_rf = RandomizedSearchCV(
     estimator=rf_model,
@@ -164,8 +189,10 @@ random_search_rf = RandomizedSearchCV(
     random_state=42,
     n_jobs=-1
 )
+
 # fits the randomized search
 random_search_rf.fit(X_scaled, y)
+
 # prints the best parameters and best score
 print(f"Best Parameters (RF): {random_search_rf.best_params_}")
 print(f"Best Score (RF): {random_search_rf.best_score_}")
@@ -177,9 +204,12 @@ print(f"Final Accuracy with Best Parameters (RF): {final_accuracy_rf}")
 
 # now do xgboost classifier with randomized search cv
 import xgboost as xgb
+
+
 # initializes the xgboost classifier
 xgb_model = xgb.XGBClassifier(random_state=42, use_label_encoder=False,
                                 eval_metric='logloss')
+
 # defines the parameter grid
 param_grid_xgb = {
     'n_estimators': [50, 100, 150, 200],
@@ -188,6 +218,7 @@ param_grid_xgb = {
 
     'max_depth': [3, 5, 7, 9]
 }
+
 # initializes the randomized search
 random_search_xgb = RandomizedSearchCV(
     estimator=xgb_model,
@@ -198,11 +229,14 @@ random_search_xgb = RandomizedSearchCV(
     random_state=42,
     n_jobs=-1
 )
+
 # fits the randomized search
 random_search_xgb.fit(X_scaled, y)
+
 # prints the best parameters and best score
 print(f"Best Parameters (XGB): {random_search_xgb.best_params_}")
 print(f"Best Score (XGB): {random_search_xgb.best_score_}")
+
 # final evaluation with best parameters
 best_xgb_model = random_search_xgb.best_estimator_
 y_pred_xgb = best_xgb_model.predict(X_scaled)
@@ -211,8 +245,11 @@ print(f"Final Accuracy with Best Parameters (XGB): {final_accuracy_xgb}")
 
 # light gbm classifier with randomized search cv
 import lightgbm as lgb
+
+
 # initializes the light gbm classifier
 lgb_model = lgb.LGBMClassifier(random_state=42)
+
 # defines the parameter grid
 param_grid_lgb = {
     'n_estimators': [50, 100, 150, 200],
@@ -221,6 +258,7 @@ param_grid_lgb = {
 
     'max_depth': [3, 5, 7, 9]
 }
+
 # initializes the randomized search
 random_search_lgb = RandomizedSearchCV(
     estimator=lgb_model,
@@ -231,11 +269,14 @@ random_search_lgb = RandomizedSearchCV(
     random_state=42,
     n_jobs=-1
 )
+
 # fits the randomized search
 random_search_lgb.fit(X_scaled, y)
+
 # prints the best parameters and best score
 print(f"Best Parameters (LGB): {random_search_lgb.best_params_}")
 print(f"Best Score (LGB): {random_search_lgb.best_score_}")
+
 # final evaluation with best parameters
 best_lgb_model = random_search_lgb.best_estimator_
 y_pred_lgb = best_lgb_model.predict(X_scaled)
@@ -244,8 +285,11 @@ print(f"Final Accuracy with Best Parameters (LGB): {final_accuracy_lgb}")
 
 # cat boost classifier with randomized search cv
 from catboost import CatBoostClassifier
+
+
 # initializes the cat boost classifier
 cat_model = CatBoostClassifier(random_state=42, verbose=0)
+
 # defines the parameter grid
 param_grid_cat = {
     'iterations': [50, 100, 150, 200],
@@ -254,6 +298,7 @@ param_grid_cat = {
 
     'depth': [3, 5, 7, 9]
 }
+
 # initializes the randomized search
 random_search_cat = RandomizedSearchCV(
     estimator=cat_model,
@@ -264,11 +309,14 @@ random_search_cat = RandomizedSearchCV(
     random_state=42,
     n_jobs=-1
 )
+
 # fits the randomized search
 random_search_cat.fit(X_scaled, y)
+
 # prints the best parameters and best score
 print(f"Best Parameters (CatBoost): {random_search_cat.best_params_}")
 print(f"Best Score (CatBoost): {random_search_cat.best_score_}")
+
 # final evaluation with best parameters
 best_cat_model = random_search_cat.best_estimator_
 y_pred_cat = best_cat_model.predict(X_scaled)
