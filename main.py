@@ -20,7 +20,7 @@ class models():
         print(confusion_matrix(y_test, y_pred))
         print(classification_report(y_test, y_pred))
         print(self.X.head())
-        print(self.y.head())
+        print(self.y.head())    
     def decision_tree(self):
         dt_model = DecisionTreeClassifier(random_state=42)
 
@@ -237,32 +237,7 @@ class models():
         final_accuracy_xgb = accuracy_score(self.y, y_pred_xgb)
         print(f"Final Accuracy with Best Parameters (XGB): {final_accuracy_xgb}")
 
-        
-    """def fineTune(self):
-        
-
-        #
-        # now do xgboost classifier with randomized search cv
 
 
-        # initializes the xgboost classifier
-        
-
-        # light gbm classifier with randomized search cv
-
-
-
-        
-
-        # cat boost classifier with randomized search cv
-
-
-
-        # initializes the cat boost classifier
-        
-"""
-
-
-
-# Call the gradientBoosting method
+#Call the gradientBoosting method
 models().lightGradientBoosting()
